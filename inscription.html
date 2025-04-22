@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription complète</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px;
+    }
+    form {
+      background: #fff;
+      padding: 25px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="form-inscription">
+    <h2>Créer un compte client</h2>
+
+    <input type="text" id="nom" placeholder="Nom" required>
+    <input type="text" id="prénom" placeholder="Prénom" required>
+    <input type="email" id="email" placeholder="Adresse e-mail" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <input type="password" id="confirm-password" placeholder="Confirmer le mot de passe" required>
+    <input type="text" id="telephone" placeholder="Téléphone" required>
+    <input type="text" id="adresse" placeholder="Adresse" required>
+    <input type="text" id="ville" placeholder="Ville" required>
+    <input type="text" id="codePostal" placeholder="Code Postal" required>
+    <input type="date" id="naissance" placeholder="Date de naissance" required>
+    <button type="submit">S'inscrire</button>
+    
+    <div class="message" id="message"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById('form-inscription');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nom = document.getElementById('nom').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const telephone = document.getElementById('telephone').value.trim();
+      const adresse = document.getElementById('adresse').value.trim();
+      const ville = document.getElementById('ville').value.trim();
+      const codePostal = document.getElementById('codePostal').value.trim();
+      const naissance = document.getElementById('naissance').value;
+
+      if (!nom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
+        message.textContent = "Veuillez remplir tous les champs.";
+        message.style.color = "red";
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        message.textContent = "Les mots de passe ne correspondent pas.";
+        message.style.color = "red";
+        return;
+      }
+
+      const utilisateur = {
+        nom,
+        email,
+        password,
+        telephone,
+        adresse,
+        ville,
+        codePostal,
+        naissance
+      };
+
+      localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
+
+      message.textContent = "Inscription réussie !";
+      message.style.color = "green";
+    });
+  </script>
+
+</body>
+</html>

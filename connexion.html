@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion</title>
+</head>
+<body>
+  <h1>Connexion</h1>
+
+  <form id="formConnexion">
+    <label for="email">Email :</label>
+    <input type="email" id="email" required><br>
+
+    <label for="motdepasse">Mot de passe :</label>
+    <input type="password" id="motdepasse" required><br>
+
+    <button type="submit">Se connecter</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("formConnexion");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const motdepasse = document.getElementById("motdepasse").value;
+
+      const utilisateurs = JSON.parse(localStorage.getItem("utilisateurs")) || [];
+
+      const utilisateurTrouve = utilisateurs.find(
+        (utilisateur) => utilisateur.email === email && utilisateur.motdepasse === motdepasse
+      );
+
+      if (utilisateurTrouve) {
+        // On enregistre l'utilisateur connecté
+        localStorage.setItem("utilisateurConnecte", JSON.stringify(utilisateurTrouve));
+        alert("Connexion réussie !");
+        window.location.href = "profil.html"; // Redirection vers le profil
+      } else {
+        alert("Email ou mot de passe incorrect.");
+      }
+    });
+  </script>
+</body>
+</html>
+
