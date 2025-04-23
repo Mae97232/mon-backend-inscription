@@ -2,15 +2,21 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mot de passe oublié</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       background-color: #f2f2f2;
-      padding: 40px;
+      padding: 20px;
+      margin: 0;
     }
 
-    form {
+    .container {
       background: #fff;
       padding: 25px;
       max-width: 500px;
@@ -21,21 +27,25 @@
 
     h2 {
       text-align: center;
+      margin-bottom: 20px;
     }
 
-    input, button {
+    input[type="email"] {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border-radius: 5px;
       border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     button {
+      width: 100%;
+      padding: 12px;
       background-color: #007bff;
       color: white;
       font-size: 16px;
       border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -46,37 +56,46 @@
     .message {
       text-align: center;
       margin-top: 15px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      button {
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <form id="reset-form">
-    <h2>Réinitialiser votre mot de passe</h2>
-    <input type="email" id="reset-email" placeholder="Entrez votre adresse e-mail" required>
-    <button type="submit">Envoyer un lien de réinitialisation</button>
-    <div class="message" id="reset-message"></div>
-  </form>
+  <div class="container">
+    <h2>Mot de passe oublié</h2>
+    <form id="reset-form">
+      <input type="email" id="email" placeholder="Entrez votre email" required>
+      <button type="submit">Réinitialiser</button>
+      <div class="message" id="message"></div>
+    </form>
+  </div>
 
   <script>
-    const form = document.getElementById('reset-form');
-    const message = document.getElementById('reset-message');
-
-    form.addEventListener('submit', function(e) {
+    document.getElementById('reset-form').addEventListener('submit', function(e) {
       e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message');
 
-      const email = document.getElementById('reset-email').value.trim();
-      const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || [];
-
-      const utilisateurExiste = utilisateurs.some(u => u.email === email);
-
-      if (utilisateurExiste) {
-        message.textContent = "Si cet email est reconnu, un lien de réinitialisation a été envoyé.";
-        message.style.color = "green";
-      } else {
-        message.textContent = "Adresse email non reconnue.";
+      if (email === "") {
+        message.textContent = "Veuillez entrer votre adresse e-mail.";
         message.style.color = "red";
+        return;
       }
+
+      // Simule l'envoi d'email
+      message.textContent = "Un lien de réinitialisation a été envoyé à votre adresse.";
+      message.style.color = "green";
     });
   </script>
 
