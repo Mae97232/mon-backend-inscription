@@ -44,25 +44,33 @@
         </form>
     </div>
 
-    <script src="script.js">
+    <!-- Ton JS externe -->
+    <script src="script.js"></script>
+
+    <!-- Ton JS interne pour le switch formulaire -->
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
-        const showSignupLink = document.getElementById("show-signup-form");
-        const showLoginLink = document.getElementById("show-login-form");
-        const loginForm = document.getElementById("login-form");
-        const signupForm = document.getElementById("signup-form");
-    
-        showSignupLink.addEventListener("click", function (e) {
-            e.preventDefault(); // empêche le rechargement de la page
-            loginForm.style.display = "none";
-            signupForm.style.display = "block";
+            const showSignupLink = document.getElementById("show-signup-form");
+            const showLoginLink = document.getElementById("show-login-form");
+            const loginForm = document.getElementById("login-form");
+            const signupForm = document.getElementById("signup-form");
+
+            if (showSignupLink) {
+                showSignupLink.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    loginForm.style.display = "none";
+                    signupForm.style.display = "block";
+                });
+            }
+
+            if (showLoginLink) {
+                showLoginLink.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    signupForm.style.display = "none";
+                    loginForm.style.display = "block";
+                });
+            }
         });
-    
-        showLoginLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            signupForm.style.display = "none";
-            loginForm.style.display = "block";
-        });
-    });
     </script>
 </body>
 </html>
