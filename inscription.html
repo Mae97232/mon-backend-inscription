@@ -63,6 +63,7 @@
     <input type="date" id="naissance" placeholder="Date de naissance" required>
     <button type="submit">S'inscrire</button>
     
+    <p class="message">Déjà un compte ? <a href="espace-client.html">Se connecter ici</a></p>
     <div class="message" id="message"></div>
   </form>
 
@@ -74,6 +75,7 @@
       e.preventDefault();
 
       const nom = document.getElementById('nom').value.trim();
+      const prenom = document.getElementById('prénom').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirm-password').value;
@@ -83,7 +85,7 @@
       const codePostal = document.getElementById('codePostal').value.trim();
       const naissance = document.getElementById('naissance').value;
 
-      if (!nom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
+      if (!nom || !prenom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
         message.textContent = "Veuillez remplir tous les champs.";
         message.style.color = "red";
         return;
@@ -95,8 +97,21 @@
         return;
       }
 
-      const utilisateur = {
+      // Récupérer la liste des utilisateurs existants ou créer une liste vide
+      const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || [];
+
+      // Vérifier si l'email existe déjà
+      const emailExiste = utilisateurs.some(u => u.email === email);
+      if (emailExiste) {
+        message.textContent = "Un compte avec cet email existe déjà.";
+        message.style.color = "red";
+        return;
+      }
+
+      // Créer un nouvel utilisateur
+      const nouvelUtilisateur = {
         nom,
+        prenom,
         email,
         password,
         telephone,
@@ -106,10 +121,15 @@
         naissance
       };
 
-      localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
+      // Ajouter le nouvel utilisateur à la liste
+      utilisateurs.push(nouvelUtilisateur);
+
+      // Enregistrer dans le localStorage
+      localStorage.setItem('utilisateurs', JSON.stringify(utilisateurs));
 
       message.textContent = "Inscription réussie !";
       message.style.color = "green";
+      form.reset();
     });
   </script>
 

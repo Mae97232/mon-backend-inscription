@@ -1,78 +1,93 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Client</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Espace Client - Connexion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px;
+    }
+    .form-container {
+      background: #fff;
+      padding: 25px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .message {
+      text-align: center;
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="form-container">
-        <h2 id="form-title">Connexion</h2>
-        
-        <!-- Formulaire de connexion -->
-        <form action="/login" method="POST" id="login-form">
-            <label for="email">Email :</label>
-            <input type="email" id="email" name="email" placeholder="Votre email" required>
-            
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
-            
-            <button type="submit">Se connecter</button>
-            
-            <p>Pas encore de compte ? <a href="#" id="show-signup-form">Créez-en un ici</a></p>
-            <p><a href="/forgot-password">Mot de passe oublié ?</a></p>
-        </form>
+  <div class="form-container">
+    <h2>Connexion</h2>
+    <form id="form-connexion">
+      <input type="email" id="email" placeholder="Votre email" required>
+      <input type="password" id="password" placeholder="Mot de passe" required>
+      <button type="submit">Se connecter</button>
+      <p class="message" id="message"></p>
+      <p>Pas encore de compte ? <a href="inscription.html">Créer un compte</a></p>
+    </form>
+  </div>
 
-        <!-- Formulaire d'inscription -->
-        <form action="/signup" method="POST" id="signup-form" style="display: none;">
-            <h2>Inscription</h2>
-            <label for="email-signup">Email :</label>
-            <input type="email" id="email-signup" name="email" placeholder="Votre email" required>
-            
-            <label for="password-signup">Mot de passe :</label>
-            <input type="password" id="password-signup" name="password" placeholder="Choisir un mot de passe" required>
-            
-            <label for="confirm-password">Confirmer le mot de passe :</label>
-            <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirmer le mot de passe" required>
-            
-            <button type="submit">S'inscrire</button>
-            
-            <p>Déjà un compte ? <a href="inscription.html" id="show-login-form">Se connecter ici</a></p>
-        </form>
-    </div>
-   
+  <script>
+    const form = document.getElementById('form-connexion');
+    const message = document.getElementById('message');
 
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-    <!-- Ton JS externe -->
-    <script src="script.js"></script>
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
 
-    <!-- Ton JS interne pour le switch formulaire -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const showSignupLink = document.getElementById("show-signup-form");
-            const showLoginLink = document.getElementById("show-login-form");
-            const loginForm = document.getElementById("login-form");
-            const signupForm = document.getElementById("signup-form");
+      const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || [];
 
-            if (showSignupLink) {
-                showSignupLink.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    loginForm.style.display = "none";
-                    signupForm.style.display = "block";
-                });
-            }
+      const utilisateur = utilisateurs.find(u => u.email === email && u.password === password);
 
-            if (showLoginLink) {
-                showLoginLink.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    signupForm.style.display = "none";
-                    loginForm.style.display = "block";
-                });
-            }
-        });
-    </script>
+      if (utilisateur) {
+        // Connexion réussie
+        localStorage.setItem('utilisateurConnecte', JSON.stringify(utilisateur));
+        message.style.color = "green";
+        message.textContent = "Connexion réussie ! Redirection...";
+        setTimeout(() => {
+          window.location.href = "profil.html"; // Redirige vers la page profil
+        }, 1500);
+      } else {
+        message.textContent = "Email ou mot de passe incorrect.";
+        message.style.color = "red";
+      }
+    });
+  </script>
+
 </body>
 </html>
