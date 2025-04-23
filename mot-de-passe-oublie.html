@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mot de passe oublié</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px;
+    }
+
+    form {
+      background: #fff;
+      padding: 25px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="reset-form">
+    <h2>Réinitialiser votre mot de passe</h2>
+    <input type="email" id="reset-email" placeholder="Entrez votre adresse e-mail" required>
+    <button type="submit">Envoyer un lien de réinitialisation</button>
+    <div class="message" id="reset-message"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById('reset-form');
+    const message = document.getElementById('reset-message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('reset-email').value.trim();
+      const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || [];
+
+      const utilisateurExiste = utilisateurs.some(u => u.email === email);
+
+      if (utilisateurExiste) {
+        message.textContent = "Si cet email est reconnu, un lien de réinitialisation a été envoyé.";
+        message.style.color = "green";
+      } else {
+        message.textContent = "Adresse email non reconnue.";
+        message.style.color = "red";
+      }
+    });
+  </script>
+
+</body>
+</html>
