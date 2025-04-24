@@ -2,102 +2,36 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mot de passe oublié</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      padding: 20px;
-      margin: 0;
-    }
-
-    .container {
-      background: #fff;
-      padding: 25px;
-      max-width: 500px;
-      margin: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input[type="email"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #007bff;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .message {
-      text-align: center;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 20px 15px;
-      }
-
-      button {
-        font-size: 15px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="design/style.css">
 </head>
 <body>
 
-  <div class="container">
+  <form id="mdp-oublie-form">
     <h2>Mot de passe oublié</h2>
-    <form id="reset-form">
-      <input type="email" id="email" placeholder="Entrez votre email" required>
-      <button type="submit">Réinitialiser</button>
-      <div class="message" id="message"></div>
-    </form>
-  </div>
+    <input type="email" id="email" placeholder="Votre adresse email" required>
+    <button type="submit">Réinitialiser le mot de passe</button>
+    <div class="message" id="message"></div>
+  </form>
 
   <script>
-    document.getElementById('reset-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const message = document.getElementById('message');
+    const form = document.getElementById("mdp-oublie-form");
+    const message = document.getElementById("message");
 
-      if (email === "") {
-        message.textContent = "Veuillez entrer votre adresse e-mail.";
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+
+      if (!email) {
+        message.textContent = "Veuillez entrer une adresse email.";
         message.style.color = "red";
         return;
       }
 
-      // Simule l'envoi d'email
-      message.textContent = "Un lien de réinitialisation a été envoyé à votre adresse.";
+      // Simule l'envoi de mail
+      message.textContent = "Un lien de réinitialisation a été envoyé.";
       message.style.color = "green";
     });
   </script>
-
 </body>
 </html>

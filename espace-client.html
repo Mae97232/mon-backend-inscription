@@ -2,104 +2,66 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Espace Client</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: 'Lato', sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .form-container {
-      max-width: 400px;
-      margin: auto;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    p {
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      .form-container {
-        padding: 20px;
-      }
-
-      input, button {
-        font-size: 15px;
-      }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="design/style.css">
 </head>
 <body>
-
   <div class="form-container">
-    <h2>Connexion</h2>
+    <h2 id="form-title">Connexion</h2>
 
-    <!-- Formulaire de connexion -->
-    <form action="/login" method="POST" id="login-form">
+    <!-- Connexion -->
+    <form id="login-form">
       <label for="email">Email :</label>
-      <input type="email" id="email" name="email" placeholder="Votre email" required>
-
+      <input type="email" id="email" required placeholder="Votre email">
+      
       <label for="password">Mot de passe :</label>
-      <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
-
+      <input type="password" id="password" required placeholder="Votre mot de passe">
+      
       <button type="submit">Se connecter</button>
-
+      
       <p>Pas encore de compte ? <a href="inscription.html">Créez-en un ici</a></p>
       <p><a href="mot-de-passe-oublie.html">Mot de passe oublié ?</a></p>
     </form>
+
+    <!-- Inscription -->
+    <form id="signup-form" style="display: none;">
+      <h2>Inscription</h2>
+      <label for="email-signup">Email :</label>
+      <input type="email" id="email-signup" required placeholder="Votre email">
+
+      <label for="password-signup">Mot de passe :</label>
+      <input type="password" id="password-signup" required placeholder="Choisir un mot de passe">
+
+      <label for="confirm-password">Confirmer le mot de passe :</label>
+      <input type="password" id="confirm-password" required placeholder="Confirmer le mot de passe">
+
+      <button type="submit">S'inscrire</button>
+
+      <p>Déjà un compte ? <a href="#" id="show-login-form">Se connecter ici</a></p>
+    </form>
   </div>
 
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const showSignupLink = document.getElementById("show-signup-form");
+      const showLoginLink = document.getElementById("show-login-form");
+      const loginForm = document.getElementById("login-form");
+      const signupForm = document.getElementById("signup-form");
+
+      showSignupLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        loginForm.style.display = "none";
+        signupForm.style.display = "block";
+      });
+
+      showLoginLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        signupForm.style.display = "none";
+        loginForm.style.display = "block";
+      });
+    });
+  </script>
 </body>
 </html>
