@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <title>Inscription complète</title>
   <link rel="stylesheet" href="design/style.css">
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+  (function(){
+    emailjs.init("pmX8KTz70qWzOwXmo"); // Remplace par ta clé publique EmailJS
+  })();
+</script>
 </head>
 <body>
 
@@ -28,11 +34,12 @@
   <script>
     const form = document.getElementById('form-inscription');
     const message = document.getElementById('message');
-
+  
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-
+  
       const nom = document.getElementById('nom').value.trim();
+      const prénom = document.getElementById('prénom').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirm-password').value;
@@ -41,21 +48,22 @@
       const ville = document.getElementById('ville').value.trim();
       const codePostal = document.getElementById('codePostal').value.trim();
       const naissance = document.getElementById('naissance').value;
-
-      if (!nom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
+  
+      if (!nom || !prénom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
         message.textContent = "Veuillez remplir tous les champs.";
         message.style.color = "red";
         return;
       }
-
+  
       if (password !== confirmPassword) {
         message.textContent = "Les mots de passe ne correspondent pas.";
         message.style.color = "red";
         return;
       }
-
+  
       const utilisateur = {
         nom,
+        prénom,
         email,
         password,
         telephone,
@@ -64,11 +72,28 @@
         codePostal,
         naissance
       };
-
+  
       localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
-      message.textContent = "Inscription réussie !";
-      message.style.color = "green";
+  
+      // Envoi de l'e-mail via EmailJS
+      emailjs.send("service_oe61zeg", "template_8w72h4h", {
+        nom_utilisateur: nom + " " + prénom,
+        email_utilisateur: email,
+        telephone: telephone,
+        adresse: adresse,
+        ville: ville,
+        code_postal: codePostal,
+        naissance: naissance
+      }).then(() => {
+        message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
+        message.style.color = "green";
+      }, (error) => {
+        message.textContent = "Inscription réussie, mais l'email n'a pas pu être envoyé.";
+        console.error(error);
+        message.style.color = "orange";
+      });
     });
   </script>
+  
 </body>
 </html>
