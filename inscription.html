@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <title>Inscription complète</title>
   <link rel="stylesheet" href="design/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
-    (function(){
-      emailjs.init("pmX8KTz70qWzOwXmo"); // Remplace par ta clé publique EmailJS
+    (function() {
+      emailjs.init("pmX8KTz70qWzOwXmo"); // Clé publique EmailJS
     })();
   </script>
 </head>
@@ -25,7 +26,7 @@
     <input type="text" id="adresse" placeholder="Adresse" required>
     <input type="text" id="ville" placeholder="Ville" required>
     <input type="text" id="codePostal" placeholder="Code Postal" required>
-    <input type="date" id="naissance" placeholder="Date de naissance" required>
+    <input type="date" id="naissance" required>
 
     <button type="submit">S'inscrire</button>
     <div class="message" id="message"></div>
@@ -75,14 +76,11 @@
 
       localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
 
-      // Envoi de l'e-mail via EmailJS avec les bons noms de variables
+      // Envoi de l'e-mail via EmailJS
       emailjs.send("service_oe61zeg", "template_8w72h4h", {
-        name: nom + " " + prénom,
-        email: email,
-        message: `Bonjour ${nom} ${prénom}, merci pour votre inscription sur Gametrash !
-Votre adresse : ${adresse}, ${ville} ${codePostal}
-Téléphone : ${telephone}
-Date de naissance : ${naissance}`
+        "to_name": nom + " " + prénom,
+        "to mail": email,
+        "message": "Bonjour " + nom + ", merci pour votre inscription sur Gametrash !"
       }).then(() => {
         message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
         message.style.color = "green";
@@ -93,3 +91,6 @@ Date de naissance : ${naissance}`
       });
     });
   </script>
+
+</body>
+</html>

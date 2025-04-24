@@ -944,65 +944,55 @@ footer {
 
   form {
     max-width: 500px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: auto;
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
   
-  h2 {
+  form h2 {
     text-align: center;
     margin-bottom: 20px;
   }
   
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="date"] {
+  input, button {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
     box-sizing: border-box;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    border-radius: 6px;
     font-size: 16px;
   }
   
   button {
-    width: 100%;
-    padding: 14px;
-    background-color: #28a745;
+    background-color: #4CAF50;
     color: white;
-    font-size: 18px;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
   }
   
   button:hover {
-    background-color: #218838;
+    background-color: #45a049;
   }
   
   .message {
-    margin-top: 15px;
     text-align: center;
+    margin-top: 10px;
     font-weight: bold;
   }
   
-  /* Responsive mobile */
-  @media screen and (max-width: 600px) {
+  @media (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+  
     form {
-      margin: 20px 10px;
       padding: 15px;
     }
   
     input, button {
-      font-size: 16px;
-    }
-  
-    h2 {
-      font-size: 20px;
+      font-size: 15px;
     }
   }
