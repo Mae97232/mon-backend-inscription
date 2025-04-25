@@ -2,55 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Inscription Gametrash</title>
+  <title>Inscription complète</title>
+  <link rel="stylesheet" href="design/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f2f2f2;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input, button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-    }
-    .message {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-  </style>
-
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
     (function() {
-      emailjs.init('pmX8KTz70qWzOwXmo'); // ta clé publique EmailJS
+      emailjs.init("pmX8KTz70qWzOwXmo"); // Clé publique EmailJS
     })();
   </script>
 </head>
 <body>
 
-  <form id="form-inscription" onsubmit="onSubmitForm(event)">
+  <form id="form-inscription">
     <h2>Créer un compte client</h2>
 
     <input type="text" id="nom" placeholder="Nom" required>
-    <input type="email" id="email" placeholder="Email" required>
+    <input type="text" id="prénom" placeholder="Prénom" required>
+    <input type="email" id="email" placeholder="Adresse e-mail" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <input type="password" id="confirm-password" placeholder="Confirmer le mot de passe" required>
     <input type="text" id="telephone" placeholder="Téléphone" required>
     <input type="text" id="adresse" placeholder="Adresse" required>
     <input type="text" id="ville" placeholder="Ville" required>
-    <input type="text" id="codePostal" placeholder="Code postal" required>
+    <input type="text" id="codePostal" placeholder="Code Postal" required>
     <input type="date" id="naissance" required>
-    <button type="submit">S'inscrire</button>
 
+    <button type="submit">S'inscrire</button>
     <div class="message" id="message"></div>
   </form>
 
