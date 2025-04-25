@@ -33,43 +33,69 @@
   </form>
 
   <script>
-    function onSubmitForm(event) {
-      event.preventDefault();
-
+    const form = document.getElementById('form-inscription');
+    const message = document.getElementById('message');
+  
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+  
       const nom = document.getElementById('nom').value.trim();
+      const prénom = document.getElementById('prénom').value.trim();
       const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
       const telephone = document.getElementById('telephone').value.trim();
       const adresse = document.getElementById('adresse').value.trim();
       const ville = document.getElementById('ville').value.trim();
       const codePostal = document.getElementById('codePostal').value.trim();
       const naissance = document.getElementById('naissance').value;
-      const message = document.getElementById('message');
-
-      if (!nom || !email || !telephone || !adresse || !ville || !codePostal || !naissance) {
+  
+      if (!nom || !prénom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
         message.textContent = "Veuillez remplir tous les champs.";
         message.style.color = "red";
         return;
       }
-
-      emailjs.send('service_uy1916t', 'template_8w72h4h', {
-        to_name: nom,
+  
+      if (password !== confirmPassword) {
+        message.textContent = "Les mots de passe ne correspondent pas.";
+        message.style.color = "red";
+        return;
+      }
+  
+      const utilisateur = {
+        nom,
+        prénom,
+        email,
+        password,
+        telephone,
+        adresse,
+        ville,
+        codePostal,
+        naissance
+      };
+  
+      localStorage.setItem('utilisateurConnecte', JSON.stringify(utilisateur));
+  
+      // Envoi de l'e-mail via EmailJS avec user ID ajouté
+      emailjs.send("service_uy1916t", "template_8w72h4h", {
+        to_name: nom + " " + prénom,
         email_utilisateur: email,
         telephone: telephone,
         adresse: adresse,
         ville: ville,
         code_postal: codePostal,
         naissance: naissance
-      })
+      }, "pmX8KTz70qWzOwXmo" /* <-- Clé publique ici */)
       .then(() => {
-        message.textContent = "Inscription réussie ! Un email a été envoyé.";
+        message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
         message.style.color = "green";
       }, (error) => {
-        message.textContent = "Inscription réussie, mais l'e-mail n'a pas pu être envoyé.";
+        message.textContent = "Inscription réussie, mais l'email n'a pas pu être envoyé.";
+        console.error(error);
         message.style.color = "orange";
-        console.error('Erreur EmailJS :', error);
       });
-    }
+    });
   </script>
-
+  
 </body>
 </html>
