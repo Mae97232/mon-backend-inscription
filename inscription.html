@@ -2,100 +2,96 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Inscription complète</title>
-  <link rel="stylesheet" href="design/style.css">
+  <title>Inscription Gametrash</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script type="text/javascript">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
     (function() {
-      emailjs.init("pmX8KTz70qWzOwXmo"); // Clé publique EmailJS
+      emailjs.init('pmX8KTz70qWzOwXmo'); // ta clé publique EmailJS
     })();
   </script>
 </head>
 <body>
 
-  <form id="form-inscription">
+  <form id="form-inscription" onsubmit="onSubmitForm(event)">
     <h2>Créer un compte client</h2>
 
     <input type="text" id="nom" placeholder="Nom" required>
-    <input type="text" id="prénom" placeholder="Prénom" required>
-    <input type="email" id="email" placeholder="Adresse e-mail" required>
-    <input type="password" id="password" placeholder="Mot de passe" required>
-    <input type="password" id="confirm-password" placeholder="Confirmer le mot de passe" required>
+    <input type="email" id="email" placeholder="Email" required>
     <input type="text" id="telephone" placeholder="Téléphone" required>
     <input type="text" id="adresse" placeholder="Adresse" required>
     <input type="text" id="ville" placeholder="Ville" required>
-    <input type="text" id="codePostal" placeholder="Code Postal" required>
+    <input type="text" id="codePostal" placeholder="Code postal" required>
     <input type="date" id="naissance" required>
-
     <button type="submit">S'inscrire</button>
+
     <div class="message" id="message"></div>
   </form>
 
   <script>
-    const form = document.getElementById('form-inscription');
-    const message = document.getElementById('message');
-  
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-  
+    function onSubmitForm(event) {
+      event.preventDefault();
+
       const nom = document.getElementById('nom').value.trim();
-      const prénom = document.getElementById('prénom').value.trim();
       const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
       const telephone = document.getElementById('telephone').value.trim();
       const adresse = document.getElementById('adresse').value.trim();
       const ville = document.getElementById('ville').value.trim();
       const codePostal = document.getElementById('codePostal').value.trim();
       const naissance = document.getElementById('naissance').value;
-  
-      if (!nom || !prénom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
+      const message = document.getElementById('message');
+
+      if (!nom || !email || !telephone || !adresse || !ville || !codePostal || !naissance) {
         message.textContent = "Veuillez remplir tous les champs.";
         message.style.color = "red";
         return;
       }
-  
-      if (password !== confirmPassword) {
-        message.textContent = "Les mots de passe ne correspondent pas.";
-        message.style.color = "red";
-        return;
-      }
-  
-      const utilisateur = {
-        nom,
-        prénom,
-        email,
-        password,
-        telephone,
-        adresse,
-        ville,
-        codePostal,
-        naissance
-      };
-  
-      localStorage.setItem('utilisateurConnecte', JSON.stringify(utilisateur));
-  
-      // Envoi de l'e-mail via EmailJS avec user ID ajouté
-      emailjs.send("service_oe61zeg", "template_8w72h4h", {
-        to_name: nom + " " + prénom,
+
+      emailjs.send('service_uy1916t', 'template_8w72h4h', {
+        to_name: nom,
         email_utilisateur: email,
         telephone: telephone,
         adresse: adresse,
         ville: ville,
         code_postal: codePostal,
         naissance: naissance
-      }, "pmX8KTz70qWzOwXmo" /* <-- Clé publique ici */)
+      })
       .then(() => {
-        message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
+        message.textContent = "Inscription réussie ! Un email a été envoyé.";
         message.style.color = "green";
       }, (error) => {
-        message.textContent = "Inscription réussie, mais l'email n'a pas pu être envoyé.";
-        console.error(error);
+        message.textContent = "Inscription réussie, mais l'e-mail n'a pas pu être envoyé.";
         message.style.color = "orange";
+        console.error('Erreur EmailJS :', error);
       });
-    });
+    }
   </script>
-  
+
 </body>
 </html>
