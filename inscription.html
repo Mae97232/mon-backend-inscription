@@ -35,10 +35,10 @@
   <script>
     const form = document.getElementById('form-inscription');
     const message = document.getElementById('message');
-
+  
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-
+  
       const nom = document.getElementById('nom').value.trim();
       const prénom = document.getElementById('prénom').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -49,19 +49,19 @@
       const ville = document.getElementById('ville').value.trim();
       const codePostal = document.getElementById('codePostal').value.trim();
       const naissance = document.getElementById('naissance').value;
-
+  
       if (!nom || !prénom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
         message.textContent = "Veuillez remplir tous les champs.";
         message.style.color = "red";
         return;
       }
-
+  
       if (password !== confirmPassword) {
         message.textContent = "Les mots de passe ne correspondent pas.";
         message.style.color = "red";
         return;
       }
-
+  
       const utilisateur = {
         nom,
         prénom,
@@ -73,14 +73,18 @@
         codePostal,
         naissance
       };
-
-      localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
-
-      // Envoi de l'e-mail via EmailJS
+  
+      localStorage.setItem('utilisateurConnecte', JSON.stringify(utilisateur));
+  
+      // Envoi de l'e-mail de confirmation via EmailJS
       emailjs.send("service_oe61zeg", "template_8w72h4h", {
-        "to_name": nom + " " + prénom,
-        "to mail": email,
-        "message": "Bonjour " + nom + ", merci pour votre inscription sur Gametrash !"
+        to_name: nom + " " + prénom,
+        email_utilisateur: email,
+        telephone: telephone,
+        adresse: adresse,
+        ville: ville,
+        code_postal: codePostal,
+        naissance: naissance
       }).then(() => {
         message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
         message.style.color = "green";
