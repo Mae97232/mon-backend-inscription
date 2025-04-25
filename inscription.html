@@ -76,7 +76,7 @@
   
       localStorage.setItem('utilisateurConnecte', JSON.stringify(utilisateur));
   
-      // Envoi de l'e-mail de confirmation via EmailJS
+      // Envoi de l'e-mail via EmailJS avec user ID ajouté
       emailjs.send("service_oe61zeg", "template_8w72h4h", {
         to_name: nom + " " + prénom,
         email_utilisateur: email,
@@ -85,7 +85,8 @@
         ville: ville,
         code_postal: codePostal,
         naissance: naissance
-      }).then(() => {
+      }, "pmX8KTz70qWzOwXmo" /* <-- Clé publique ici */)
+      .then(() => {
         message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
         message.style.color = "green";
       }, (error) => {
@@ -95,6 +96,6 @@
       });
     });
   </script>
-
+  
 </body>
 </html>
