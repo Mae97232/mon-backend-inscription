@@ -9,6 +9,14 @@
  </head>
 
 <body>
+   <form id="emailForm">
+      <input type="email" id="to" placeholder="Email du destinataire" required>
+      <input type="text" id="subject" placeholder="Sujet" required>
+      <textarea id="text" placeholder="Votre message ici..." required></textarea>
+      <button type="submit">Envoyer</button>
+    </form>
+    
+    <div id="resultat"></div>
    <!-- ✅ NAVBAR -->
    <nav class="navbar">
       <div class="logo-texte">
@@ -115,7 +123,8 @@
          </div>
       </div>
    </footer>
-
+  
+      <script src="script.js"></script>
    <script>
       function toggleMenu(burger) {
          burger.classList.toggle("active");
