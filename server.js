@@ -15,7 +15,9 @@ app.get('/', (req, res) => {
 });
 
 app.post('/send-email', (req, res) => {
-  const { to, subject, html } = req.body; // <-- on récupère 'html' au lieu de 'text'
+  console.log("Contenu reçu sur /send-email :", req.body); // 👈 ajoute ça
+
+  const { to, subject, html } = req.body;
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -31,7 +33,7 @@ app.post('/send-email', (req, res) => {
     from: 'yorickspprt@gmail.com',
     to: to,
     subject: subject,
-    html: html // <-- on envoie du HTML ici
+    html: html
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -39,7 +41,7 @@ app.post('/send-email', (req, res) => {
       console.error('Erreur lors de l\'envoi :', error);
       res.status(500).send('Erreur lors de l\'envoi de l\'email');
     } else {
-      console.log('Email envoyé :', info.response);
+      console.log('✅ Email envoyé avec succès :', info.response);
       res.send('Email envoyé avec succès');
     }
   });
