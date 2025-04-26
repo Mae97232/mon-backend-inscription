@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.post('/send-email', (req, res) => {
-  console.log("Contenu reçu sur /send-email :", req.body); // 👈 ajoute ça
+app.post('/send-email', async (req, res) => {
+  console.log("👉 Données reçues sur /send-email :", req.body);
 
   const { to, subject, html } = req.body;
 
@@ -36,15 +36,14 @@ app.post('/send-email', (req, res) => {
     html: html
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Erreur lors de l\'envoi :', error);
-      res.status(500).send('Erreur lors de l\'envoi de l\'email');
-    } else {
-      console.log('✅ Email envoyé avec succès :', info.response);
-      res.send('Email envoyé avec succès');
-    }
-  });
+  try {
+    let info = await transporter.sendMail(mailOptions);
+    console.log('✅ Email envoyé :', info.response);
+    res.send('Email envoyé avec succès');
+  } catch (error) {
+    console.error('🚨 Erreur réelle lors de l\'envoi :', error); // 🔥 ici l'erreur sera bien visible
+    res.status(500).send('Erreur réelle lors de l\'envoi de l\'email');
+  }
 });
 
 app.listen(PORT, () => {
