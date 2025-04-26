@@ -6,33 +6,29 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Sert les fichiers HTML, CSS, JS du dossier "public"
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Permet de lire les données envoyées via les formulaires
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Route principale pour afficher index.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Route pour envoyer un email
 app.post('/send-email', (req, res) => {
   const { to, subject, text } = req.body;
 
-  // Configurer le transporteur d'email
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // connexion SSL
     auth: {
       user: 'yorickspprt@gmail.com',
-      pass: 'sroo pqca rwho yipt'
-    }
+      pass: 'avkngmwrsfypyecs' // sans espace !
+    }     
   });
-  
+
   const mailOptions = {
-    from: 'yorickspprt@gmail.com', // <-- correction ici
+    from: 'yorickspprt@gmail.com',
     to: to,
     subject: subject,
     text: text
