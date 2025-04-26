@@ -14,9 +14,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.post('/send-email', async (req, res) => {
-  console.log("👉 Données reçues sur /send-email :", req.body);
-
+app.post('/send-email', (req, res) => {
   const { to, subject, html } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -35,6 +33,17 @@ app.post('/send-email', async (req, res) => {
     subject: subject,
     html: html
   };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Erreur lors de l\'envoi :', error);  // On affiche l'erreur
+      return res.status(500).send('Erreur lors de l\'envoi de l\'email');
+    } else {
+      console.log('Email envoyé :', info.response);  // On affiche la réussite
+      return res.send('Email envoyé avec succès');
+    }
+  });
+});
 
   try {
     let info = await transporter.sendMail(mailOptions);
