@@ -26,13 +26,13 @@ app.post('/send-email', (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'tonemail@gmail.com',
-      pass: 'tonmotdepasseapplication' // pas ton mot de passe normal Gmail !
+      user: 'yorickspprt@gmail.com',
+      pass: 'sroo pqca rwho yipt'
     }
   });
-
+  
   const mailOptions = {
-    from: 'tonemail@gmail.com',
+    from: 'yorickspprt@gmail.com', // <-- correction ici
     to: to,
     subject: subject,
     text: text
