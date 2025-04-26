@@ -2,47 +2,74 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Connexion</title>
+  <title>Espace Client</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="design/style.css">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <h1>Connexion</h1>
+  <div class="form-container">
+    <h2 id="form-title">Connexion</h2>
 
-  <form id="formConnexion">
-    <label for="email">Email :</label>
-    <input type="email" id="email" required><br>
+    <!-- Connexion -->
+    <form id="login-form">
+      <label for="email">Email :</label>
+      <input type="email" id="email" required placeholder="Votre email">
+      
+      <label for="password">Mot de passe :</label>
+      <input type="password" id="password" required placeholder="Votre mot de passe">
+      
+      <button type="submit">Se connecter</button>
+      
+      <p>Pas encore de compte ? <a href="inscription.html">Créez-en un ici</a></p>
+      <p><a href="mot-de-passe-oublie.html">Mot de passe oublié ?</a></p>
+    </form>
 
-    <label for="motdepasse">Mot de passe :</label>
-    <input type="password" id="motdepasse" required><br>
+    <!-- Inscription -->
+    <form id="signup-form" style="display: none;">
+      <h2>Inscription</h2>
+      <label for="email-signup">Email :</label>
+      <input type="email" id="email-signup" required placeholder="Votre email">
 
-    <button type="submit">Se connecter</button>
-  </form>
-  <!-- ✅ Le lien à placer ici sous le formulaire -->
-  <p>Pas encore de compte ? <a href="inscription.html">Créez-en un ici</a></p>
+      <label for="password-signup">Mot de passe :</label>
+      <input type="password" id="password-signup" required placeholder="Choisir un mot de passe">
 
-  <script>
-    const form = document.getElementById("formConnexion");
+      <label for="confirm-password">Confirmer le mot de passe :</label>
+      <input type="password" id="confirm-password" required placeholder="Confirmer le mot de passe">
 
-    form.addEventListener("submit", function (e) {
+      <button type="submit">S'inscrire</button>
+
+      <p>Déjà un compte ? <a href="#" id="show-login-form">Se connecter ici</a></p>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loginForm = document.getElementById("login-form");
+
+    loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
 
-      const email = document.getElementById("email").value;
-      const motdepasse = document.getElementById("motdepasse").value;
+      // On récupère les utilisateurs du localStorage
+      const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || [];
 
-      const utilisateurs = JSON.parse(localStorage.getItem("utilisateurs")) || [];
+      // On cherche l'utilisateur qui correspond
+      const utilisateur = utilisateurs.find(u => u.email === email && u.password === password);
 
-      const utilisateurTrouve = utilisateurs.find(
-        (utilisateur) => utilisateur.email === email && utilisateur.motdepasse === motdepasse
-      );
-
-      if (utilisateurTrouve) {
-        // On enregistre l'utilisateur connecté
-        localStorage.setItem("utilisateurConnecte", JSON.stringify(utilisateurTrouve));
-        alert("Connexion réussie !");
-        window.location.href = "profil.html"; // Redirection vers le profil
+      if (utilisateur) {
+        // Connexion réussie : on enregistre l'utilisateur connecté
+        localStorage.setItem('utilisateurConnecte', JSON.stringify(utilisateur));
+        // Redirige vers l'espace client
+        window.location.href = "espace-mon-client.html";
       } else {
         alert("Email ou mot de passe incorrect.");
       }
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>

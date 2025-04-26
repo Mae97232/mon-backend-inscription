@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tableau de bord - Mon Espace Client | GameTrash 🎮</title>
+  <link rel="stylesheet" href="design/style.css">
+</head>
+<body>
+
+<!-- BOUTON MENU BURGER -->
+<div class="menu-burger" onclick="toggleMenu(this)">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+
+<!-- NAVIGATION -->
+<ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="produit.html">GameBoy Noire</a></li>
+    <li><a href="produit2.html">GameBoy Rouge</a></li>
+    <li><a href="produit3.html">GameBoy Orange</a></li>
+    <li><a href="produit4.html">GameBoy Violette</a></li>
+    <li><a href="espace-client.html">Connexion client</a></li>
+    <li><a href="panier.html">🛒 Panier <span id="panierCount">(0)</span></a></li>
+</ul>
+
+<!-- HEADER -->
+<header>
+  <h1>Bienvenue <span id="prenom"></span> dans votre espace client ! 🎮</h1>
+</header>
+
+<!-- TABLEAU DE BORD -->
+<div class="dashboard">
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <a href="#profil">👤 Mon profil</a>
+    <a href="#commandes">🛒 Mes commandes</a>
+    <a href="#support">📨 Contacter le support</a>
+    <button class="logout-button" onclick="deconnexion()">Se déconnecter</button>
+  </div>
+
+  <div class="content" id="profil">
+    <h1>👤 Mon Profil</h1>
+    <p><strong>Nom :</strong> <span id="nom"></span></p>
+    <p><strong>Email :</strong> <span id="email"></span></p>
+    <p><strong>Téléphone :</strong> <span id="telephone"></span></p>
+    <p><strong>Adresse :</strong> <span id="adresse"></span></p>
+    <p><strong>Date de naissance :</strong> <span id="naissance"></span></p>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+function toggleMenu(burger) {
+   burger.classList.toggle("active");
+   const nav = document.getElementById("navLinks");
+   nav.classList.toggle("show");
+}
+
+// Remplir les infos du client connecté
+const utilisateur = JSON.parse(localStorage.getItem('utilisateurConnecte'));
+
+if (utilisateur && utilisateur.prénom) {
+  document.getElementById('prenom').textContent = utilisateur.prénom;
+  document.getElementById('nom').textContent = utilisateur.nom;
+  document.getElementById('email').textContent = utilisateur.email;
+  document.getElementById('telephone').textContent = utilisateur.telephone;
+  document.getElementById('adresse').textContent = utilisateur.adresse + ", " + utilisateur.ville + ", " + utilisateur.codePostal;
+  document.getElementById('naissance').textContent = utilisateur.naissance;
+} else {
+  window.location.href = '/'; // Si pas connecté, retour accueil
+}
+
+// Déconnexion
+function deconnexion() {
+  localStorage.removeItem('utilisateurConnecte');
+  window.location.href = 'index.html';
+}
+</script>
+
+</body>
+</html>
