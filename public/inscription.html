@@ -97,10 +97,14 @@
         })
       })
       .then(response => response.text())
-      .then(data => {
-        message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
-        message.style.color = "green";
-      })
+    .then(data => {
+      message.textContent = "Inscription réussie ! Redirection vers votre espace client...";
+      message.style.color = "green";
+  
+      setTimeout(() => {
+        window.location.href = '/espace-mon-client.html'; // Redirection automatique
+    }, 2000);
+    })
       .catch(error => {
         console.error('Erreur lors de l\'envoi de l\'email:', error);
         message.textContent = "Inscription réussie, mais l'email n'a pas pu être envoyé.";
