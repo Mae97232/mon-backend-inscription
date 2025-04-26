@@ -15,23 +15,23 @@ app.get('/', (req, res) => {
 });
 
 app.post('/send-email', (req, res) => {
-  const { to, subject, text } = req.body;
+  const { to, subject, html } = req.body; // <-- on récupère 'html' au lieu de 'text'
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-    secure: true, // connexion SSL
+    secure: true,
     auth: {
       user: 'yorickspprt@gmail.com',
-      pass: 'dnltotxzjqsefgyr' // sans espace !
-    }     
+      pass: 'dnltotxzjqsefgyr'
+    }
   });
 
   const mailOptions = {
     from: 'yorickspprt@gmail.com',
     to: to,
     subject: subject,
-    text: text
+    html: html // <-- on envoie du HTML ici
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

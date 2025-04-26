@@ -6,12 +6,6 @@
   <link rel="stylesheet" href="design/style.css">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function() {
-      emailjs.init("pmX8KTz70qWzOwXmo"); // Clé publique EmailJS
-    })();
-  </script>
 </head>
 <body>
 
@@ -36,10 +30,10 @@
   <script>
     const form = document.getElementById('form-inscription');
     const message = document.getElementById('message');
-  
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-  
+
       const nom = document.getElementById('nom').value.trim();
       const prénom = document.getElementById('prénom').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -50,19 +44,19 @@
       const ville = document.getElementById('ville').value.trim();
       const codePostal = document.getElementById('codePostal').value.trim();
       const naissance = document.getElementById('naissance').value;
-  
+
       if (!nom || !prénom || !email || !password || !confirmPassword || !telephone || !adresse || !ville || !codePostal || !naissance) {
         message.textContent = "Veuillez remplir tous les champs.";
         message.style.color = "red";
         return;
       }
-  
+
       if (password !== confirmPassword) {
         message.textContent = "Les mots de passe ne correspondent pas.";
         message.style.color = "red";
         return;
       }
-  
+
       const utilisateur = {
         nom,
         prénom,
@@ -74,29 +68,46 @@
         codePostal,
         naissance
       };
-  
+
       localStorage.setItem('utilisateurConnecte', JSON.stringify(utilisateur));
-  
-      // Envoi de l'e-mail via EmailJS avec user ID ajouté
-      emailjs.send("service_uy1916t", "template_8w72h4h", {
-        to_name: nom + " " + prénom,
-        email_utilisateur: email,
-        telephone: telephone,
-        adresse: adresse,
-        ville: ville,
-        code_postal: codePostal,
-        naissance: naissance
-      }, "pmX8KTz70qWzOwXmo" /* <-- Clé publique ici */)
-      .then(() => {
+
+      // Envoi de l'e-mail via TON serveur Node.js
+      fetch('/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          to: email,
+          subject: "Bienvenue chez GameTrash 🎮",
+          html: `
+            <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f7f7f7;">
+              <h2 style="color: #333;">Bienvenue ${prénom} ${nom} !</h2>
+              <p>Merci pour votre inscription chez <strong>GameTrash</strong> 🎮.</p>
+              <h3>Voici vos informations :</h3>
+              <ul>
+                <li><strong>Téléphone :</strong> ${telephone}</li>
+                <li><strong>Adresse :</strong> ${adresse}, ${ville}, ${codePostal}</li>
+                <li><strong>Date de naissance :</strong> ${naissance}</li>
+              </ul>
+              <p style="margin-top:20px;">Nous avons hâte de vous faire découvrir nos meilleurs jeux rétro !</p>
+              <p>À très vite,<br><strong>L'équipe GameTrash</strong> 🎮</p>
+            </div>
+          `
+        })
+      })
+      .then(response => response.text())
+      .then(data => {
         message.textContent = "Inscription réussie ! Un email de confirmation a été envoyé.";
         message.style.color = "green";
-      }, (error) => {
+      })
+      .catch(error => {
+        console.error('Erreur lors de l\'envoi de l\'email:', error);
         message.textContent = "Inscription réussie, mais l'email n'a pas pu être envoyé.";
-        console.error(error);
         message.style.color = "orange";
       });
     });
   </script>
-  
+
 </body>
 </html>
