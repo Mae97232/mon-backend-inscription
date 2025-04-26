@@ -1,0 +1,26 @@
+{
+  "name": "gametrash-server",
+  "version": "1.0.0",
+  "description": "Serveur pour GameTrash",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "nodemailer": "^6.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mae97232/test-Gametrash.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mae97232/test-Gametrash/issues"
+  },
+  "homepage": "https://github.com/Mae97232/test-Gametrash#readme"
+}
