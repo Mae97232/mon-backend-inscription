@@ -23,7 +23,7 @@ app.post('/send-email', (req, res) => {
     secure: true, // connexion SSL
     auth: {
       user: 'yorickspprt@gmail.com',
-      pass: 'avkngmwrsfypyecs' // sans espace !
+      pass: 'dnltotxzjqsefgyr' // sans espace !
     }     
   });
 
