@@ -36,23 +36,13 @@ app.post('/send-email', (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error('Erreur lors de l\'envoi :', error);  // On affiche l'erreur
+      console.error('🚨 Erreur lors de l\'envoi :', error);
       return res.status(500).send('Erreur lors de l\'envoi de l\'email');
     } else {
-      console.log('Email envoyé :', info.response);  // On affiche la réussite
+      console.log('✅ Email envoyé :', info.response);
       return res.send('Email envoyé avec succès');
     }
   });
-});
-
-  try {
-    let info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email envoyé :', info.response);
-    res.send('Email envoyé avec succès');
-  } catch (error) {
-    console.error('🚨 Erreur réelle lors de l\'envoi :', error); // 🔥 ici l'erreur sera bien visible
-    res.status(500).send('Erreur réelle lors de l\'envoi de l\'email');
-  }
 });
 
 app.listen(PORT, () => {
