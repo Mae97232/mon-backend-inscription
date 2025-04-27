@@ -6,17 +6,22 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Pour servir les fichiers du dossier "public"
+// Sert les fichiers du dossier "public"
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// ✅ Route d'accueil
+// Route pour la page d'accueil
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ✅ Route pour envoyer l'email
+// Route pour la page espace client
+app.get('/espace-mon-client.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'espace-mon-client.html'));
+});
+
+// Route pour envoyer un email
 app.post('/send-email', (req, res) => {
   const { to, subject, html } = req.body;
 
@@ -31,7 +36,7 @@ app.post('/send-email', (req, res) => {
   });
 
   const mailOptions = {
-    from: 'yorickspprt@gmail.com',
+    from: 'yorickspprt@gmail.com', // Tu peux mettre aussi process.env.EMAIL_USER ici
     to: to,
     subject: subject,
     html: html
@@ -48,7 +53,7 @@ app.post('/send-email', (req, res) => {
   });
 });
 
-// ✅ Démarrer le serveur
+// Démarre le serveur
 app.listen(PORT, () => {
   console.log(`✅ Serveur lancé sur http://localhost:${PORT}`);
 });
