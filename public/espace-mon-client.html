@@ -36,7 +36,7 @@
   <div class="sidebar">
     <h2>Menu</h2>
     <a href="#profil">👤 Mon profil</a>
-    <a href="#commandes">🛒 Mes commandes</a>
+    <a href="commande.html">🛒 Mes commandes</a>
     <a href="#support">📨 Contacter le support</a>
     <button class="logout-button" onclick="deconnexion()">Se déconnecter</button>
   </div>
@@ -57,6 +57,62 @@ function toggleMenu(burger) {
    burger.classList.toggle("active");
    const nav = document.getElementById("navLinks");
    nav.classList.toggle("show");
+}
+
+// Fonction pour gérer l'inscription
+function inscrireUtilisateur() {
+  const email = document.getElementById('email-inscription').value;
+  const motDePasse = document.getElementById('password-inscription').value;
+
+  // Vérifier si email et mot de passe sont remplis
+  if (!email || !motDePasse) {
+    alert('Veuillez remplir tous les champs.');
+    return;
+  }
+
+  // Récupérer les utilisateurs existants
+  let utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || [];
+
+  // Vérifier si l'utilisateur existe déjà
+  const utilisateurExistant = utilisateurs.find(user => user.email === email);
+
+  if (utilisateurExistant) {
+    alert('Cet email est déjà utilisé.');
+    return;
+  }
+
+  // Ajouter le nouvel utilisateur
+  const nouvelUtilisateur = { email: email, motDePasse: motDePasse, commandes: [] };
+  utilisateurs.push(nouvelUtilisateur);
+  localStorage.setItem('utilisateurs', JSON.stringify(utilisateurs));
+
+  // Enregistrer l'utilisateur connecté
+  localStorage.setItem('utilisateurConnecte', JSON.stringify(nouvelUtilisateur));
+
+  // Envoyer un email de bienvenue
+  fetch('/send-email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      to: email,
+      subject: 'Bienvenue sur Game Trash 🎮',
+      html: '<h1>Bienvenue sur Game Trash !</h1><p>Merci pour votre inscription. 🕹️</p>'
+    })
+  })
+  .then(response => response.text())
+  .then(data => {
+    console.log('✅ Email de bienvenue envoyé:', data);
+    alert('Inscription réussie ! Un email de bienvenue vous a été envoyé.');
+    // Rediriger vers le profil par exemple
+    window.location.href = 'profil.html';
+  })
+  .catch(error => {
+    console.error('🚨 Erreur envoi email:', error);
+    alert('Inscription réussie, mais erreur d\'envoi de l\'email.');
+    window.location.href = 'profil.html';
+  });
 }
 
 // Remplir les infos du client connecté
