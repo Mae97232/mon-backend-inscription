@@ -33,5 +33,35 @@ document.addEventListener("DOMContentLoaded", () => {
         resultat.textContent = "❌ Une erreur est survenue.";
         resultat.style.color = "red";
       }
+      // Fonction pour enregistrer une commande
+function enregistrerCommande(produit, prix) {
+  // Récupérer l'utilisateur connecté
+  const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
+  if (!utilisateurConnecte) {
+      alert('Vous devez être connecté pour commander.');
+      return;
+  }
+
+  // Récupérer les commandes existantes
+  let commandes = JSON.parse(localStorage.getItem('commandes')) || [];
+
+  // Créer une nouvelle commande
+  const nouvelleCommande = {
+      email: utilisateurConnecte.email, // ou utilisateurConnecte.username
+      produit: produit,
+      prix: prix,
+      date: new Date().toLocaleDateString()
+  };
+
+  // Ajouter la commande à la liste
+  commandes.push(nouvelleCommande);
+
+  // Sauvegarder dans le localStorage
+  localStorage.setItem('commandes', JSON.stringify(commandes));
+
+  alert('✅ Commande enregistrée !');
+}
+
     });
   });
+  
