@@ -97,18 +97,23 @@
         })
       })
       .then(response => response.text())
-    .then(data => {
-      message.textContent = "Inscription réussie ! Redirection vers votre espace client...";
-      message.style.color = "green";
-  
-      setTimeout(() => {
-        window.location.href = '/espace-mon-client.html'; // Redirection automatique
-    }, 2000);
-    })
+      .then(data => {
+        console.log('✅ Email de bienvenue envoyé:', data);
+        alert('Inscription réussie ! Un email de bienvenue vous a été envoyé.');
+        message.style.color = "green";
+        
+        setTimeout(() => {
+          window.location.href = '/espace-mon-client.html'; // Redirection automatique
+        }, 2000);
+      })
       .catch(error => {
         console.error('Erreur lors de l\'envoi de l\'email:', error);
         message.textContent = "Inscription réussie, mais l'email n'a pas pu être envoyé.";
         message.style.color = "orange";
+        
+        setTimeout(() => {
+          window.location.href = '/espace-mon-client.html'; // Redirection même si erreur email
+        }, 2000);
       });
     });
   </script>
